@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title>Callbacks方法</title>
+		<meta name="description" content="">
+		<meta name="keywords" content="">
+		<link href="" rel="stylesheet">
+		<script src="../../version/1.11.1/jquery.js"></script>
+	</head>
+	<body>
+		<script>
+			function show(str) {
+				console.log("show: " + str);
+			}
+			function log(str) {
+				console.log("log: " + str);
+				return false;
+			}
+
+			var callbacks_once = $.Callbacks("once"); //fire只触发一次
+
+			callbacks_once.add(log);
+			callbacks_once.fire("add_once");
+
+			callbacks_once.add(show);
+			callbacks_once.fire("add_again_once");
+
+			callbacks_once.remove(show);
+			callbacks_once.fire("add_again_once");
+
+			console.log("-----分割线-----");
+
+			var callbacks_memory = $.Callbacks("memory");
+
+			callbacks_memory.add(log);
+			callbacks_memory.fire("add_memory");
+
+			callbacks_memory.add(show);
+			callbacks_memory.fire("add_again_memory");
+
+			callbacks_memory.add(show);
+			callbacks_memory.fire("add_next_memory");
+
+			console.log("-----分割线-----");
+
+			var callbacks_unique = $.Callbacks("unique");
+
+			callbacks_unique.add(log);
+			callbacks_unique.fire("add_unique");
+
+			callbacks_unique.add(show);
+			callbacks_unique.add(log);
+			callbacks_unique.fire("add_again_unique");
+
+			console.log("-----分割线-----");
+
+			var callbacks_stopOnFalse = $.Callbacks("stopOnFalse");
+
+			callbacks_stopOnFalse.add(log);
+			callbacks_stopOnFalse.fire("add_stopOnFalse");
+
+			callbacks_stopOnFalse.add(show);
+			callbacks_stopOnFalse.fire("add_again_stopOnFalse");
+		</script>
+	</body>
+</html>

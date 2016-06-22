@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title>fire方法</title>
+		<meta name="description" content="">
+		<meta name="keywords" content="">
+		<link href="" rel="stylesheet">
+		<script src="../../version/1.11.1/jquery.js"></script>
+	</head>
+	<body>
+		<script>
+			function show(str) {
+				console.log("show: " + str);
+			}
+			function log(str) {
+				console.log("log: " + str);
+			}
+
+			var callbacks = $.Callbacks();
+
+			callbacks.add(show);
+			callbacks.fire("add");
+
+			callbacks.add(log);
+			callbacks.fire("add_again");
+		</script>
+	</body>
+</html>
