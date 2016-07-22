@@ -86,7 +86,7 @@ jQuery.Callbacks = function( flags ) {
         },
         // Actual Callbacks object
         self = {
-            // 添加一个或一组回调函数至回调函数列表
+            // 添加一个或一组（array）回调函数至回调函数列表
             add: function() {
                 if ( list ) { // 空数组或空对象均转换为true
                     var length = list.length; // 备份原回调函数列表的长度
@@ -98,9 +98,9 @@ jQuery.Callbacks = function( flags ) {
                         fire( memory[ 0 ], memory[ 1 ] ); // 立即执行新添加的回调函数，如果是在memory + stopOnFalse模式下，且某个回调函数的返回值是false, 则不会执行
                     }
                 }
-                return this;
+                return this; // 返回回调函数列表，保持链式语法
             },
-            // Remove a callback from the list
+            // 从回调函数列表中移除一个或一组（array）回调函数
             remove: function() {
                 if ( list ) {
                     var args = arguments,
@@ -109,20 +109,16 @@ jQuery.Callbacks = function( flags ) {
                     for ( ; argIndex < argLength ; argIndex++ ) {
                         for ( var i = 0; i < list.length; i++ ) {
                             if ( args[ argIndex ] === list[ i ] ) {
-                                // Handle firingIndex and firingLength
-                                if ( firing ) {
-                                    if ( i <= firingLength ) {
+                                if ( firing ) { // 回调函数列表正在执行
+                                    if ( i <= firingLength ) { // 将最后一个待执行的回调函数的下标减1
                                         firingLength--;
-                                        if ( i <= firingIndex ) {
+                                        if ( i <= firingIndex ) { // 待移除函数的下标小于正在执行回调函数的下标，说明待移除的回调函数已经执行，将正在执行的回调函数下标减1，
                                             firingIndex--;
                                         }
                                     }
                                 }
-                                // Remove the element
                                 list.splice( i--, 1 );
-                                // If we have some unicity property then
-                                // we only need to do this once
-                                if ( flags.unique ) {
+                                if ( flags.unique ) { // unique模式下，不存在重复的回调函数，直接退出内层循环
                                     break;
                                 }
                             }
